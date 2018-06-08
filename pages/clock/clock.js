@@ -2,35 +2,14 @@
 Page({
   data: {
     width: 0,
-    height: 0
-  },
-  login: function () {
-    console.log("a")
-    wx.login({
-      success: function (res) {
-        var code = res.code;//发送给服务器的code 
-        console.log(code);
-        if (code) {
-          wx.request({
-            url: 'https://sgoysnvt.qcloud.la/login.php',
-            data: {
-              code: code,
-            },
-            header: {
-              'content-type': 'application/json'
-            },
-            success: function (res) {
-              console.log(res.data);
-              wx.setStorageSync('session', res.data.session);
-              wx.setStorageSync('invite', res.data.invite);
-            }
-          })
-        }
-      },
-      fail: function (error) {
-        console.log('login failed ' + error);
-      }
-    })
+    height: 0,
+    startPos: 0,
+    totaltime: 1500,
+    currentPos: 0,
+    finishPos: 0,
+    resttime: 500,
+    restfinishPos: 0,
+    working: false
   },
   //onLoad生命周期函数，监听页面加载  
   onLoad: function () {
@@ -56,9 +35,9 @@ Page({
     var context = wx.createContext()//创建并返回绘图上下文（获取画笔）  
     //设置宽高  
     var width = this.width
-    var height = this.height
-    var R = width / 2 - 55;//设置文字距离时钟中心点距离  
+    var height = this.height 
     var clockR = width / 2 - 60;
+    var that = this;
     //重置画布函数  
     function reSet() {
       context.height = context.height;//每次清除画布，然后变化后的时间补上  
@@ -73,33 +52,6 @@ Page({
       context.arc(0, 0, clockR, 0, 2 * Math.PI, true);
       context.closePath();
       context.stroke();
-    }
-    //绘制字体  
-    function num() {
-      // var R = width/2-60;//设置文字距离时钟中心点距离  
-      context.setFontSize(20)//设置字体样式  
-      context.textBaseline = "middle";//字体上下居中，绘制时间  
-      for (var i = 1; i < 13; i++) {
-        //利用三角函数计算字体坐标表达式  
-        var x = R * Math.cos(i * Math.PI / 6 - Math.PI / 2);
-        var y = R * Math.sin(i * Math.PI / 6 - Math.PI / 2);
-        if (i == 11 || i == 12) {//调整数字11和12的位置  
-          context.fillText(i, x - 12, y + 9);
-        } else {
-          context.fillText(i, x - 6, y + 9);
-        }
-      }
-    }
-    //绘制小格  
-    function smallGrid() {
-      context.setLineWidth(1);  
-      for (var i = 0; i < 60; i++) {
-        context.beginPath();
-        context.rotate(Math.PI / 30);
-        context.moveTo(clockR, 0);
-        context.lineTo(clockR - 10, 0);
-        context.stroke();
-      }
     }
     //绘制大格  
     function bigGrid() {
@@ -149,16 +101,39 @@ Page({
       context.moveTo(-20, 0);
       context.lineTo(width / 3 - 20, 0);
       context.stroke();
+      context.restore();
+    }
+    //绘制扇形工作区
+    function work() {
+      context.setLineWidth(1);
+      context.setStrokeStyle("orange");
+      context.beginPath();
+      context.arc(0, 0, clockR, that.data.startPos, that.data.finishPos, false);
+      context.arc(0, 0, clockR - 15, that.data.finishPos, that.data.startPos, true);
+      context.closePath();
+      context.stroke();
+    }
+    //绘制扇形休息区
+    function rest() { 
+      context.setLineWidth(1);
+      context.setStrokeStyle("green");
+      context.beginPath();
+      context.arc(0, 0, clockR, that.data.finishPos, that.data.restfinishPos, false);
+      context.arc(0, 0, clockR - 15, that.data.restfinishPos, that.data.finishPos, true);
+      context.closePath();
+      context.stroke();
     }
     //调用  
     function drawClock() {
       reSet();
       circle();
-      //num();
       context.rotate(-Math.PI / 2);//时间从3点开始，倒转90度
-      //smallGrid();
       bigGrid();
       move();
+      if (that.data.working){
+        work();
+        rest();
+      }
     }
     drawClock()//调用运动函数  
     // 调用 wx.drawCanvas，通过 canvasId 指定在哪张画布上绘制，通过 actions 指定绘制行为  
@@ -192,5 +167,27 @@ Page({
 
   share: function () {
 
+  },
+
+  onetap: function () {
+    if(this.data.working){
+      return;
+    }
+    var t = new Date();//获取当前时间  
+    var h = t.getHours();//获取小时  
+    h = h > 12 ? (h - 12) : h;//将24小时制转化为12小时制  
+    var m = t.getMinutes();//获取分针  
+    var s = t.getSeconds();//获取秒针
+    var start = (Math.PI / 30) * (m + s / 60);
+    var total = (Math.PI / 30) * (this.data.totaltime / 60);
+    var rest = (Math.PI / 30) * (this.data.resttime / 60);
+    this.setData({
+      startPos: start,
+      currentPos: start,
+      finishPos: start+total,
+      restfinishPos: start+total+rest,
+      working: true
+    });
+    console.log(this.data);
   },
 })
