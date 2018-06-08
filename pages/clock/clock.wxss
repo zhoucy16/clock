@@ -1,0 +1,29 @@
+.canvas{  
+  width: 100%;  
+  height: 100%;  
+  position: fixed;  
+}
+
+.iconleftbottom{
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  left: 20rpx;
+  top: 1130rpx;
+}
+
+.iconrightbottom{
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  left: 670rpx;
+  top: 1130rpx;
+}
+
+.iconrighttop{
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  left: 670rpx;
+  top: 20rpx;
+}

@@ -1,0 +1,6 @@
+<view>
+  <canvas canvas-id="myCanvas" class="canvas"></canvas>
+  <image catchtap='gotosettings' class="iconleftbottom" src="/images/settings.png"></image>
+  <image catchtap='gototodolist' class="iconrightbottom" src="/images/todolist.png"></image>
+  <image catchtap='share' class="iconrighttop" src="/images/pair.png"></image>
+</view>

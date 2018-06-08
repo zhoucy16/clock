@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "任务清单",
+  "usingComponents": {
+    "item": "/components/item/item"
+  }
+}

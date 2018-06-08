@@ -1,0 +1,14 @@
+<!--index.wxml-->
+<text bindtap="login" hidden='{{ logged }}'>登录</text>
+<view hidden='{{ !logged }}'>
+  <text bindtap='clockOperation'>{{ clockInfo }}\n</text>
+  <text bindtap='updateOperation'>更新事件！\n</text>
+  <form bindsubmit='testSubmit'>
+  <input placeholder='输入名称' name='todoName'></input>
+  <input placeholder='预计次数' name='todoTimes'></input>
+  <input name='todoForm' placeholder='工作模式：1是正计时（为了测试懒得做了，应该放一个单选，如果选正计时就不显示时间'></input>
+  <input placeholder='番茄时间' name='doTime'></input>
+  <input placeholder='休息时间' name='restTime'></input>
+  <button class='login' form-type='submit'>创建</button>
+  </form>
+</view>
