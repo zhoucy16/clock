@@ -1,3 +1,5 @@
+var backend=require('../../backend')
+
 // 获取应用实例  
 Page({
   data: {
@@ -292,14 +294,13 @@ Page({
     })
   },
 
-  gototodolist: function () {
-    wx.navigateTo({
-      url: '/pages/todo/todo'
-    })
-  },
-
   share: function () {
 
+  },
+
+  //gerw: 暂停
+  pause: function() {
+    //TODO
   },
 
   onetap: function () {

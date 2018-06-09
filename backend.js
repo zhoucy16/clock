@@ -35,6 +35,50 @@ var exports = {
     })
   },
 
+  //gerw: 给app.js提供的login，将后端信息储存在globalData中
+  login4App: function () {
+    wx.login({
+      success: function (res) {
+        var code = res.code;//发送给服务器的code  
+        if (code) {
+          wx.request({
+            url: config.service.loginUrl,
+            data: {
+              code: code,
+            },
+            header: {
+              'content-type': 'application/json'
+            },
+            success: function (res) {
+              res.data = JSON.parse(res.data.split("<script")[0]);
+              console.log("已登陆！返回信息：", res.data);
+              wx.setStorageSync('session', res.data.session);
+              wx.setStorageSync('invite', res.data.invite);
+              // that.setData({
+                // returnedData: res.data,
+                // logged: true
+              // })
+              getApp().globalData.returnedData=res.data;
+              getApp().globalData.logged=true;
+            }
+          })
+        }
+      },
+      fail: function (error) {
+        console.log('login failed ' + error);
+        wx.showToast({//fixme 这一段还没有测试过
+          title: '登录失败，请稍后重试',
+          mask:true,
+          complete: function() {
+            wx.navigateBack({
+              delta: -1,
+            })
+          }
+        })
+      }
+    })
+  },
+
   // 这个是按下创建按钮时；现在正计时可能没有时间做了
   createTodoNow: function (e) {
     e.detail.value['session'] = wx.getStorageSync('session');
