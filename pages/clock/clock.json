@@ -1,11 +1,5 @@
 {
-  "pages": [
-    "pages/clock"
-  ],
-  "window": {
-    "navigationBarTextStyle": "light",
-    "navigationBarTitleText": "画布时钟",
-    "navigationBarBackgroundColor": "#000",
-    "backgroundColor": "#fbf9fe"
-  }
+  "navigationBarTitleText": "一对儿西红柿",
+  "navigationBarBackgroundColor": "#ffffff",
+  "backgroundColor": "#ffffff"
 }

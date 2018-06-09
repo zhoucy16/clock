@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "任务清单",
+  "navigationBarBackgroundColor": "#ffffff",
+  "backgroundColor": "#ffffff",
   "usingComponents": {
     "item": "/components/item/item"
   }

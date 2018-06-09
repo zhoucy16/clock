@@ -1,11 +1,5 @@
 {
-  "pages": [
-    "pages/settings"
-  ],
-  "window": {
-    "navigationBarTextStyle": "light",
-    "navigationBarTitleText": "画布时钟",
-    "navigationBarBackgroundColor": "#000",
-    "backgroundColor": "#fbf9fe"
-  }
+  "navigationBarTitleText": "设置",
+  "navigationBarBackgroundColor": "#ffffff",
+  "backgroundColor": "#ffffff"
 }
