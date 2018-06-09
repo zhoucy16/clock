@@ -4,12 +4,17 @@ Page({
     width: 0,
     height: 0,
     startPos: 0,
-    totaltime: 1500,
+    totaltime: getApp().globalData.totalTime,
     currentPos: 0,
     finishPos: 0,
-    resttime: 500,
+    resttime: getApp().globalData.restTime,
     restfinishPos: 0,
-    working: false
+    leftworkTime: 0,
+    leftrestTime: 0,
+    information: "",
+    working: false,
+    opening: false,
+    waiting: false
   },
   //onLoad生命周期函数，监听页面加载  
   onLoad: function () {
@@ -44,14 +49,45 @@ Page({
       context.translate(width / 2, height / 2);//设置坐标轴原点  
       context.save();//保存中点坐标1  
     }
-    //绘制中心圆和外面大圆  
-    function circle() {
-      //外面大圆  
+    //绘制外面大圆  
+    function circle() { 
       context.setLineWidth(2);
       context.beginPath();
       context.arc(0, 0, clockR, 0, 2 * Math.PI, true);
       context.closePath();
       context.stroke();
+    }
+    //绘制提醒文字  
+    function information() {
+      var informationtext = "";
+      if(!that.data.opening){
+        informationtext = "welcome";
+      }
+      else{
+        if(that.data.waiting){
+          if(that.data.working){
+            informationtext = "点按以开始工作";
+          }
+          else{
+            informationtext = "点按以开始休息";
+          }
+        }
+        else{
+          if(that.data.working){
+            var minute = (Array(2).join(0) + Math.floor(that.data.leftworkTime / 60)).slice(-2);
+            var second = (Array(2).join(0) + that.data.leftworkTime % 60).slice(-2);
+            informationtext = minute + ":" + second;
+          }
+          else{
+            var minute = (Array(2).join(0) + Math.floor(that.data.leftrestTime / 60)).slice(-2);
+            var second = (Array(2).join(0) + that.data.leftrestTime % 60).slice(-2);
+            informationtext = minute + ":" + second;
+          }
+        }
+      }
+      that.setData({
+        information: informationtext
+      })
     }
     //绘制大格  
     function bigGrid() {
@@ -70,7 +106,10 @@ Page({
       var h = t.getHours();//获取小时  
       h = h > 12 ? (h - 12) : h;//将24小时制转化为12小时制  
       var m = t.getMinutes();//获取分针  
-      var s = t.getSeconds();//获取秒针  
+      var s = t.getSeconds();//获取秒针
+      that.setData({
+        currentPos: (Math.PI / 30) * (m + s / 60)
+      });  
       context.save();//再次保存2  
       context.setLineWidth(4);
       //旋转角度=30度*（h+m/60+s/3600）  
@@ -123,16 +162,89 @@ Page({
       context.closePath();
       context.stroke();
     }
+    //绘制扇形剩余工作区
+    function left() {
+      context.setLineWidth(1);
+      context.setStrokeStyle("red");
+      context.beginPath();
+      context.arc(0, 0, clockR, that.data.currentPos, that.data.finishPos, false);
+      context.arc(0, 0, clockR - 15, that.data.finishPos, that.data.currentPos, true);
+      context.closePath();
+      context.stroke();
+    }
+    //绘制扇形剩余休息区
+    function left2() {
+      context.setLineWidth(1);
+      context.setStrokeStyle("red");
+      context.beginPath();
+      context.arc(0, 0, clockR, that.data.currentPos, that.data.restfinishPos, false);
+      context.arc(0, 0, clockR - 15, that.data.restfinishPos, that.data.currentPos, true);
+      context.closePath();
+      context.stroke();
+    }
+    //工作结束提醒
+    function workfinishRing() {
+      if (getApp().globalData.vibrate) {
+        wx.vibrateLong({
+
+        });
+      }
+    }
+    //休息结束提醒
+    function restfinishRing() {
+      if (getApp().globalData.vibrate) {
+        wx.vibrateLong({
+
+        });
+      }
+    }
     //调用  
     function drawClock() {
       reSet();
       circle();
+      information();
       context.rotate(-Math.PI / 2);//时间从3点开始，倒转90度
       bigGrid();
       move();
-      if (that.data.working){
-        work();
-        rest();
+      if (that.data.opening){
+        if(that.data.waiting){
+          if(that.data.working){
+            restfinishRing();
+          }
+          else{
+            workfinishRing();
+          }
+        }
+        else{
+          if (that.data.working) {
+            that.setData({
+              leftworkTime: that.data.leftworkTime - 1
+            })
+            work();
+            //rest();
+            left();
+            if (that.data.leftworkTime < 0) {
+              that.setData({
+                working: false,
+                waiting: true
+              })
+            }
+          }
+          else {
+            that.setData({
+              leftrestTime: that.data.leftrestTime - 1
+            })
+            rest();
+            left2();
+            if (that.data.leftrestTime < 0) {
+              that.setData({
+                working: true,
+                waiting: true,
+              })
+            }
+          }
+        }
+        
       }
     }
     drawClock()//调用运动函数  
@@ -170,23 +282,62 @@ Page({
   },
 
   onetap: function () {
-    if(this.data.working){
-      return;
-    }
     var t = new Date();//获取当前时间  
     var h = t.getHours();//获取小时  
     h = h > 12 ? (h - 12) : h;//将24小时制转化为12小时制  
     var m = t.getMinutes();//获取分针  
     var s = t.getSeconds();//获取秒针
     var start = (Math.PI / 30) * (m + s / 60);
-    var total = (Math.PI / 30) * (this.data.totaltime / 60);
-    var rest = (Math.PI / 30) * (this.data.resttime / 60);
+    var total = (Math.PI / 30) * (getApp().globalData.totalTime / 60);
+    var rest = (Math.PI / 30) * (getApp().globalData.restTime / 60);
+
+    
+    if(this.data.opening){
+      if (this.data.waiting) {
+        this.setData({
+          waiting: false
+        })
+        if (this.data.working) {
+          this.setData({
+            startPos: start,
+            currentPos: start,
+            finishPos: start + total,
+            restfinishPos: start + total + rest,
+            leftworkTime: getApp().globalData.totalTime,
+            leftrestTime: getApp().globalData.restTime
+          })
+        }
+        else{
+          this.setData({
+            startPos: start,
+            currentPos: start,
+            finishPos: start,
+            restfinishPos: start + rest,
+            leftworkTime: getApp().globalData.totalTime,
+            leftrestTime: getApp().globalData.restTime
+          })
+        }
+        return;
+      }
+      else{
+        this.setData({
+          opening: false,
+          waiting: false
+        });
+        return;
+      } 
+    }
+    
     this.setData({
       startPos: start,
       currentPos: start,
       finishPos: start+total,
       restfinishPos: start+total+rest,
-      working: true
+      working: true,
+      opening: true,
+      waiting: false,
+      leftworkTime: getApp().globalData.totalTime,
+      leftrestTime: getApp().globalData.restTime
     });
     console.log(this.data);
   },

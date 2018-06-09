@@ -1,5 +1,8 @@
 <view>
   <canvas catchtap='onetap' canvas-id="myCanvas" class="canvas"></canvas>
+  <view class="information">
+    <text>{{information}}</text>
+  </view>
   <image catchtap='gotosettings' class="iconleftbottom" src="/images/settings.png"></image>
   <image catchtap='gototodolist' class="iconrightbottom" src="/images/todolist.png"></image>
   <image catchtap='share' class="iconrighttop" src="/images/pair.png"></image>

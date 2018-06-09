@@ -1,1 +1,18 @@
-<text>settings</text>
+<view class="container">
+  <view class="space-between">
+    <text class="font">工作时间</text>
+    <slider class="slider" bindchange="worksliderchange" value="{{totalTime/60}}" min="1" max="60" show-value="true"></slider>
+  </view>
+  <view class="space-between">
+    <text class="font">休息时间</text>
+    <slider class="slider" bindchange="restsliderchange" value="{{restTime/60}}" min="1" max="30" show-value="true"></slider>
+  </view>
+  <view class="space-between">
+    <text class="font">振动提醒</text>
+    <switch class="slider" bindchange="vibrateswitchchange" checked="{{vibrate}}"></switch>
+  </view>
+  <view class="space-between">
+    <text class="font">屏幕常亮</text>
+    <switch class="slider" bindchange="alwaysLightingswitchchange" checked="{{alwaysLighting}}"></switch>
+  </view>
+</view>

@@ -4,6 +4,15 @@
   position: fixed;  
 }
 
+.information{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  line-height: 500rpx;
+  font-size: 60rpx;
+}
+
 .iconleftbottom{
   width: 60rpx;
   height: 60rpx;
