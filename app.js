@@ -1,10 +1,10 @@
 App({
   globalData: {
-    totalTime: 1500,
-    restTime: 300,
-    virbate: true,
-    muse: false,
-    alwaysLighting: true
+    totalTime: wx.getStorageSync('totalTime') || 1500,
+    restTime: wx.getStorageSync('restTime') || 300,
+    vibrate: wx.getStorageSync('vibrate') || true,
+    muse: wx.getStorageSync('muse') || false,
+    alwaysLighting: wx.getStorageSync('alwaysLighting') || true
   },
   onLaunch: function () {
     wx.login({
@@ -35,5 +35,6 @@ App({
         console.log('login failed ' + error);
       }
     })
+
   }
 })
