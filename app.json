@@ -4,7 +4,6 @@
     "pages/index/index",
     "pages/todo/todo",
     "pages/settings/settings"
-    
   ],
   "window":{
     "backgroundColor":"#F6F6F6",

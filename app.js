@@ -12,4 +12,4 @@ App({
   onLaunch:function() {
     backend.login4App()
   }
-})
+});
