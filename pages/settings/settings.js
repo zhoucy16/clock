@@ -39,6 +39,7 @@ Page({
       vibrate: e.detail.value
     });
     getApp().globalData.vibrate = e.detail.value;
+    console.log(getApp().globalData.vibrate);
     wx.setStorageSync('vibrate', getApp().globalData.vibrate);
   },
 
@@ -48,6 +49,9 @@ Page({
     });
     getApp().globalData.alwaysLighting = e.detail.value;
     wx.setStorageSync('alwaysLighting', getApp().globalData.alwaysLighting);
+    wx.setKeepScreenOn({
+      keepScreenOn: getApp().globalData.alwaysLighting,
+    })
   }
   
 })

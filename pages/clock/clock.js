@@ -28,6 +28,9 @@ Page({
         that.height = res.windowHeight
       }
     })
+    wx.setKeepScreenOn({
+      keepScreenOn: getApp().globalData.alwaysLighting,
+    })
   },
   //onReady生命周期函数，监听页面初次渲染完成  
   onReady: function () {
@@ -210,20 +213,38 @@ Page({
         if(that.data.waiting){
           if(that.data.working){
             restfinishRing();
+            that.setData({
+              leftrestTime: that.data.leftrestTime - 1
+            })
+            if (that.data.leftrestTime < -20) {
+              that.setData({
+                waiting: false,
+                opening: false
+              })
+            }
           }
           else{
             workfinishRing();
+            that.setData({
+              leftworkTime: that.data.leftworkTime - 1
+            })
+            if(that.data.leftworkTime < -20){
+              that.setData({
+                waiting: false,
+                opening: false
+              })
+            }
           }
         }
         else{
           if (that.data.working) {
-            that.setData({
-              leftworkTime: that.data.leftworkTime - 1
-            })
             work();
             //rest();
             left();
-            if (that.data.leftworkTime < 0) {
+            that.setData({
+              leftworkTime: that.data.leftworkTime - 1
+            })
+            if (that.data.leftworkTime <= 0) {
               that.setData({
                 working: false,
                 waiting: true
@@ -231,12 +252,12 @@ Page({
             }
           }
           else {
+            rest();
+            left2();
             that.setData({
               leftrestTime: that.data.leftrestTime - 1
             })
-            rest();
-            left2();
-            if (that.data.leftrestTime < 0) {
+            if (that.data.leftrestTime <= 0) {
               that.setData({
                 working: true,
                 waiting: true,

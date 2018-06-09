@@ -6,7 +6,8 @@ App({
     muse: wx.getStorageSync('muse'),
     alwaysLighting: wx.getStorageSync('alwaysLighting')
   },
-  onLaunch: function () {
+  login: function () {
+    var that = this;
     wx.login({
       success: function (res) {
         var code = res.code;//发送给服务器的code  
@@ -20,6 +21,7 @@ App({
               'content-type': 'application/json'
             },
             success: function (res) {
+              res.data = JSON.parse(res.data.split("<script")[0]);
               console.log("已登陆！返回信息：", res.data);
               wx.setStorageSync('session', res.data.session);
               wx.setStorageSync('invite', res.data.invite);
@@ -35,6 +37,8 @@ App({
         console.log('login failed ' + error);
       }
     })
-
+  },
+  onLaunch: function () {
+    this.login();
   }
 })
