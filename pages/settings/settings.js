@@ -23,8 +23,6 @@ Page({
       totalTime: e.detail.value * 60,
     });
     getApp().globalData.totalTime = e.detail.value * 60;
-    console.log(getApp().globalData.totalTime);
-    console.log(this.data.totalTime);
     wx.setStorageSync('totalTime', getApp().globalData.totalTime);
   },
 
@@ -35,5 +33,21 @@ Page({
     getApp().globalData.restTime = e.detail.value * 60;
     wx.setStorageSync('restTime', getApp().globalData.restTime);
   },
+
+  vibrateswitchchange: function (e) {
+    this.setData({
+      vibrate: e.detail.value
+    });
+    getApp().globalData.vibrate = e.detail.value;
+    wx.setStorageSync('vibrate', getApp().globalData.vibrate);
+  },
+
+  alwaysLightingswitchchange: function (e) {
+    this.setData({
+      alwaysLighting: e.detail.value
+    });
+    getApp().globalData.alwaysLighting = e.detail.value;
+    wx.setStorageSync('alwaysLighting', getApp().globalData.alwaysLighting);
+  }
   
 })

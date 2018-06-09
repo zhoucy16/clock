@@ -9,6 +9,9 @@ Page({
     finishPos: 0,
     resttime: getApp().globalData.restTime,
     restfinishPos: 0,
+    leftworkTime: 0,
+    leftrestTime: 0,
+    information: "",
     working: false,
     opening: false,
     waiting: false
@@ -46,14 +49,45 @@ Page({
       context.translate(width / 2, height / 2);//设置坐标轴原点  
       context.save();//保存中点坐标1  
     }
-    //绘制中心圆和外面大圆  
-    function circle() {
-      //外面大圆  
+    //绘制外面大圆  
+    function circle() { 
       context.setLineWidth(2);
       context.beginPath();
       context.arc(0, 0, clockR, 0, 2 * Math.PI, true);
       context.closePath();
       context.stroke();
+    }
+    //绘制提醒文字  
+    function information() {
+      var informationtext = "";
+      if(!that.data.opening){
+        informationtext = "welcome";
+      }
+      else{
+        if(that.data.waiting){
+          if(that.data.working){
+            informationtext = "点按以开始工作";
+          }
+          else{
+            informationtext = "点按以开始休息";
+          }
+        }
+        else{
+          if(that.data.working){
+            var minute = (Array(2).join(0) + Math.floor(that.data.leftworkTime / 60)).slice(-2);
+            var second = (Array(2).join(0) + that.data.leftworkTime % 60).slice(-2);
+            informationtext = minute + ":" + second;
+          }
+          else{
+            var minute = (Array(2).join(0) + Math.floor(that.data.leftrestTime / 60)).slice(-2);
+            var second = (Array(2).join(0) + that.data.leftrestTime % 60).slice(-2);
+            informationtext = minute + ":" + second;
+          }
+        }
+      }
+      that.setData({
+        information: informationtext
+      })
     }
     //绘制大格  
     function bigGrid() {
@@ -168,6 +202,7 @@ Page({
     function drawClock() {
       reSet();
       circle();
+      information();
       context.rotate(-Math.PI / 2);//时间从3点开始，倒转90度
       bigGrid();
       move();
@@ -182,10 +217,13 @@ Page({
         }
         else{
           if (that.data.working) {
+            that.setData({
+              leftworkTime: that.data.leftworkTime - 1
+            })
             work();
             //rest();
             left();
-            if (that.data.currentPos == that.data.finishPos) {
+            if (that.data.leftworkTime < 0) {
               that.setData({
                 working: false,
                 waiting: true
@@ -193,17 +231,15 @@ Page({
             }
           }
           else {
+            that.setData({
+              leftrestTime: that.data.leftrestTime - 1
+            })
             rest();
             left2();
-            if (that.data.currentPos == that.data.restfinishPos) {
-              var total = (Math.PI / 30) * (getApp().globalData.totalTime / 60);
-              var restt = (Math.PI / 30) * (getApp().globalData.restTime / 60);
+            if (that.data.leftrestTime < 0) {
               that.setData({
                 working: true,
                 waiting: true,
-                startPos: that.data.currentPos,
-                finishPos: that.data.currentPos + total,
-                restfinishPos: that.data.currentPos + total + restt
               })
             }
           }
@@ -267,6 +303,18 @@ Page({
             currentPos: start,
             finishPos: start + total,
             restfinishPos: start + total + rest,
+            leftworkTime: getApp().globalData.totalTime,
+            leftrestTime: getApp().globalData.restTime
+          })
+        }
+        else{
+          this.setData({
+            startPos: start,
+            currentPos: start,
+            finishPos: start,
+            restfinishPos: start + rest,
+            leftworkTime: getApp().globalData.totalTime,
+            leftrestTime: getApp().globalData.restTime
           })
         }
         return;
@@ -287,7 +335,9 @@ Page({
       restfinishPos: start+total+rest,
       working: true,
       opening: true,
-      waiting: false
+      waiting: false,
+      leftworkTime: getApp().globalData.totalTime,
+      leftrestTime: getApp().globalData.restTime
     });
     console.log(this.data);
   },

@@ -2,9 +2,9 @@ App({
   globalData: {
     totalTime: wx.getStorageSync('totalTime') || 1500,
     restTime: wx.getStorageSync('restTime') || 300,
-    vibrate: wx.getStorageSync('vibrate') || true,
-    muse: wx.getStorageSync('muse') || false,
-    alwaysLighting: wx.getStorageSync('alwaysLighting') || true
+    vibrate: wx.getStorageSync('vibrate'),
+    muse: wx.getStorageSync('muse'),
+    alwaysLighting: wx.getStorageSync('alwaysLighting')
   },
   onLaunch: function () {
     wx.login({
