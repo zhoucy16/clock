@@ -10,7 +10,8 @@ Page({
     resttime: getApp().globalData.restTime,
     restfinishPos: 0,
     working: false,
-    opening: false
+    opening: false,
+    waiting: false
   },
   //onLoad生命周期函数，监听页面加载  
   onLoad: function () {
@@ -147,6 +148,22 @@ Page({
       context.closePath();
       context.stroke();
     }
+    //工作结束提醒
+    function workfinishRing() {
+      if (getApp().globalData.vibrate) {
+        wx.vibrateLong({
+
+        });
+      }
+    }
+    //休息结束提醒
+    function restfinishRing() {
+      if (getApp().globalData.vibrate) {
+        wx.vibrateLong({
+
+        });
+      }
+    }
     //调用  
     function drawClock() {
       reSet();
@@ -155,30 +172,43 @@ Page({
       bigGrid();
       move();
       if (that.data.opening){
-        if(that.data.working){
-          work();
-          rest();
-          left();
-          if (that.data.currentPos == that.data.finishPos) {
-            that.setData({
-              working: false
-            })
+        if(that.data.waiting){
+          if(that.data.working){
+            restfinishRing();
+          }
+          else{
+            workfinishRing();
           }
         }
         else{
-          rest();
-          left2();
-          if (that.data.currentPos == that.data.restfinishPos) {
-            var total = (Math.PI / 30) * (getApp().globalData.totalTime / 60);
-            var restt = (Math.PI / 30) * (getApp().globalData.restTime / 60);
-            that.setData({
-              working: true,
-              startPos: that.data.currentPos,
-              finishPos: that.data.currentPos + total,
-              restfinishPos: that.data.currentPos + total + restt
-            })
+          if (that.data.working) {
+            work();
+            //rest();
+            left();
+            if (that.data.currentPos == that.data.finishPos) {
+              that.setData({
+                working: false,
+                waiting: true
+              })
+            }
+          }
+          else {
+            rest();
+            left2();
+            if (that.data.currentPos == that.data.restfinishPos) {
+              var total = (Math.PI / 30) * (getApp().globalData.totalTime / 60);
+              var restt = (Math.PI / 30) * (getApp().globalData.restTime / 60);
+              that.setData({
+                working: true,
+                waiting: true,
+                startPos: that.data.currentPos,
+                finishPos: that.data.currentPos + total,
+                restfinishPos: that.data.currentPos + total + restt
+              })
+            }
           }
         }
+        
       }
     }
     drawClock()//调用运动函数  
@@ -216,12 +246,6 @@ Page({
   },
 
   onetap: function () {
-    if(this.data.opening){
-      this.setData({
-        opening: false
-      });
-      return;
-    }
     var t = new Date();//获取当前时间  
     var h = t.getHours();//获取小时  
     h = h > 12 ? (h - 12) : h;//将24小时制转化为12小时制  
@@ -230,13 +254,40 @@ Page({
     var start = (Math.PI / 30) * (m + s / 60);
     var total = (Math.PI / 30) * (getApp().globalData.totalTime / 60);
     var rest = (Math.PI / 30) * (getApp().globalData.restTime / 60);
+
+    
+    if(this.data.opening){
+      if (this.data.waiting) {
+        this.setData({
+          waiting: false
+        })
+        if (this.data.working) {
+          this.setData({
+            startPos: start,
+            currentPos: start,
+            finishPos: start + total,
+            restfinishPos: start + total + rest,
+          })
+        }
+        return;
+      }
+      else{
+        this.setData({
+          opening: false,
+          waiting: false
+        });
+        return;
+      } 
+    }
+    
     this.setData({
       startPos: start,
       currentPos: start,
       finishPos: start+total,
       restfinishPos: start+total+rest,
       working: true,
-      opening: true
+      opening: true,
+      waiting: false
     });
     console.log(this.data);
   },
