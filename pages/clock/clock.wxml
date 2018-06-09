@@ -1,5 +1,6 @@
 <view>
-  <canvas catchtap='onetap' canvas-id="myCanvas" class="canvas"></canvas>
+  <canvas canvas-id="herCanvas" class="canvas"></canvas>
+  <canvas catchtap='onetap' canvas-id="myCanvas" class="little-canvas"></canvas>
   <view class="information">
     <text>{{information}}</text>
   </view>

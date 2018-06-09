@@ -1,4 +1,4 @@
-<view class="container">
+<view class="header">
   <view class="space-between">
     <text class="font">工作时间</text>
     <slider class="slider" bindchange="worksliderchange" value="{{totalTime/60}}" min="1" max="60" show-value="true"></slider>
