@@ -1,7 +1,14 @@
 .canvas{  
   width: 100%;  
   height: 100%;  
-  position: fixed;  
+  position: fixed;
+  top: 0rpx;
+}
+
+.little-canvas{
+  width: 100%;  
+  height: 100%;  
+  position: fixed;
 }
 
 .information{
@@ -16,23 +23,31 @@
 .iconleftbottom{
   width: 60rpx;
   height: 60rpx;
-  position: absolute;
+  position: fixed;
   left: 20rpx;
-  top: 1130rpx;
+  bottom: 20rpx;
 }
 
 .iconrightbottom{
   width: 60rpx;
   height: 60rpx;
-  position: absolute;
-  left: 670rpx;
-  top: 1130rpx;
+  position: fixed;
+  right: 20rpx;
+  bottom: 20rpx;
 }
 
 .iconrighttop{
   width: 60rpx;
   height: 60rpx;
-  position: absolute;
-  left: 670rpx;
+  position: fixed;
+  right: 20rpx;
+  top: 20rpx;
+}
+
+.iconlefttop{
+  width: 60rpx;
+  height: 60rpx;
+  position: fixed;
+  left: 20rpx;
   top: 20rpx;
 }
