@@ -1,3 +1,4 @@
+/* pages/newTodo/newTodo.wxss */
 .header{
   display: flex;
   flex-direction: column;
@@ -10,6 +11,7 @@
 }
 
 .font{
+  width: 150rpx;
   color: #B9B9B9;
   font-size: 30rpx;
   align-items: center;
@@ -18,9 +20,21 @@
 
 .slider{
   width: 500rpx;
+  position: relative;
+  right: 20rpx;
 }
 
 .switch{
   position: fixed;
   right: 30rpx;
+}
+
+.input{
+  width: 500rpx;
+  margin-left: 20rpx;
+}
+
+.button{
+  width: 200rpx;
+  height: 90rpx;
 }

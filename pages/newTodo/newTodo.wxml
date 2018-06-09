@@ -1,0 +1,20 @@
+<!--pages/newTodo/newTodo.wxml-->
+<view>
+  <view class="space-between">  
+    <text class="font">工作名称</text>
+    <input class="input" placeholder='请输入'></input>
+  </view>
+  <view class="space-between">
+    <text class="font">工作时间</text>
+    <slider class="slider" bindchange="worksliderchange" value="{{25}}" min="1" max="60" show-value="true"></slider>
+  </view>
+  <view class="space-between">
+    <text class="font">休息时间</text>
+    <slider class="slider" bindchange="restsliderchange" value="{{5}}" min="1" max="30" show-value="true"></slider>
+  </view>
+  <view class="space-between">
+    <text class="font">总次数</text>
+    <slider class="slider" bindchange="restsliderchange" value="{{1}}" min="1" max="10" show-value="true"></slider>
+  </view>
+  <button catchtap='createnewtodo' class="button">创建</button>
+</view>

@@ -64,7 +64,7 @@ Page({
     function information() {
       var informationtext = "";
       if(!that.data.opening){
-        informationtext = "welcome";
+        informationtext = "点按以开始工作";
       }
       else{
         if(that.data.waiting){

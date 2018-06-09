@@ -20,10 +20,24 @@ Component({
       type: Boolean,
       value: false
     },
-    action: {
-      type: String,
-      value: ''
+    
+    worktime: {
+      type: Number,
+      value: 1500
+    },
+    resttime: {
+      type: Number,
+      value: 500
+    },
+    totalTimes: {
+      type: Number,
+      value: 1
+    },
+    finishedTimes: {
+      type: Number,
+      value: 0
     }
+
   },
 
   /**

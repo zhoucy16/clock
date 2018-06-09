@@ -63,3 +63,38 @@
   color: #DDD;
   text-align: center;
 }
+
+ .navbar{ 
+ flex: none; 
+ display: flex; 
+ background: #ffffff; 
+ margin-top: 20rpx;
+ z-index: 50; 
+} 
+.navbar .item{ 
+ position: relative; 
+ flex: auto; 
+ text-align: center;
+ line-height: 60rpx; 
+ font-size: 30rpx;
+ color: #666666;
+ font-family: Microsoft YaHei;
+} 
+.navbar .item.active{ 
+ color: #ec9e14; 
+ font-size: 30rpx;
+ font-family: Microsoft YaHei;
+} 
+.navbar .item.active:after{ 
+ content: ""; 
+ display: block; 
+ position: absolute; 
+ bottom: 0; 
+ left: 0; 
+ right: 0; 
+ height: 4rpx; 
+ background: #ec9e14; 
+ font-size: 30rpx;
+ color: #666666;
+ font-family: Microsoft YaHei;
+}

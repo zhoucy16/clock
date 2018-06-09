@@ -1,22 +1,14 @@
 <!--components/item/item.wxml-->
 <view class="item-container">
-  <view class="item{{ action ? '' : (finished ? ' finished' : '') }}">
-    <icon class="checkbox" type="{{ finished ? 'success' : 'circle' }}" wx:if="{{ !action }}" />
-    <block wx:if="{{ tags.length }}">
-      <view class="content-tags">
-        <text class="content">{{ content }}</text>
-        <view class="tags">
-          <text class="tag" wx:for="{{ tags }}" wx:key="index">{{ item }}</text>
-        </view>
-      </view>
-    </block>
-    <block wx:else>
-      <text class="content">{{ content }}</text>
-    </block>
-    <icon type="info" size="16" catchtap="toggleExtra" color="{{ collapsed ? '#7ED321' : '#DDD' }}" wx-if="{{ extra }}" />
-    <icon type="clear" size="16" catchtap="removeTodo" />
+  <view class="item">
+    <!--icon class="checkbox" type="{{ finished ? 'success' : 'circle' }}" /-->
+    <text class="content">{{ content }}</text>
+    <icon type="waiting" color="orange" />
+    <text class="worktime">{{ worktime }}</text>
+    <icon type="waiting" color="rgb(100,200,0)" />
+    <text class="resttime">{{ resttime }}</text>
+    <icon wx:if="{{!finished}}" type="clear" catchtap="removeTodo" />
+    <icon wx:if="{{!finished}}" type="success" catchtap="removeTodo" />
   </view>
-  <view class="extra-detail" wx-if="{{ !collapsed }}">
-    <textarea disabled value="{{ extra }}" auto-height />
-  </view>
+  <progress wx:if="{{!finished}}" percent="{{finishedTimes * 100 / totalTimes}}" activeColor="rgb(20,155,255)"/>
 </view>
