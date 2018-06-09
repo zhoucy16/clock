@@ -1,4 +1,11 @@
 App({
+  globalData: {
+    totalTime: 1500,
+    restTime: 300,
+    virbate: true,
+    muse: false,
+    alwaysLighting: true
+  },
   onLaunch: function () {
     wx.login({
       success: function (res) {

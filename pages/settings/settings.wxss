@@ -1,0 +1,16 @@
+.space-between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.font{
+  color: #B9B9B9;
+  font-size: 30rpx;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.slider{
+  width: 500rpx;
+}

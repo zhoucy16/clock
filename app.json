@@ -1,5 +1,6 @@
 {
   "pages":[
+    
     "pages/clock/clock",
     "pages/todo/todo",
     "pages/settings/settings",
