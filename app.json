@@ -1,15 +1,16 @@
 {
-  "pages":[
+  "pages": [
+    "pages/settings/settings",
+    "pages/todo/todo",
     "pages/clock/clock",
     "pages/index/index",
-    "pages/todo/todo",
-    "pages/settings/settings"
+    "pages/newTodo/newTodo"\
   ],
-  "window":{
-    "backgroundColor":"#F6F6F6",
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "Test",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   }
 }
