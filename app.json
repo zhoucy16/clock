@@ -4,7 +4,7 @@
     "pages/todo/todo",
     "pages/clock/clock",
     "pages/index/index",
-    "pages/newTodo/newTodo"
+    "pages/newTodo/newTodo"\
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
