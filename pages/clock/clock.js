@@ -70,7 +70,8 @@ Page({
     },
 
     convertTime2Str: function (t) {
-        var minute = (Array(2).join(0) + Math.floor(t / 60)).slice(-2);
+        // var minute = (Array(2).join(0) + Math.floor(t / 60)).slice(-2);
+        var minute = Math.floor(t / 60);
         var second = (Array(2).join(0) + t % 60).slice(-2);
         return minute + ":" + second
     },
