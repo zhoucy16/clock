@@ -1,66 +1,41 @@
 // pages/newTodo/newTodo.js
+
+var backend = require('../../backend');
+
 Page({
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
+    /**
+     * 页面的初始数据
+     */
+    data: {
+        workTime: 0,
+        restTime: 0,
+        targetNum: 0
+    },
 
-  },
+    createnewtodo: function (e) {
+        backend.createTodoNow(e.detail.value, function () {
+            wx.navigateTo({
+                url: '/pages/todo/todo'
+            });
+        });
+    },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+    worksliderchange: function (e) {
+        this.setData({
+            workTime: e.detail.value
+        });
+    },
 
-  },
+    restsliderchange: function (e) {
+        this.setData({
+            restTime: e.detail.value
+        });
+    },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
-})
+    totalsliderchange: function (e) {
+        this.setData({
+            targetNum: e.detail.value
+        });
+    }
+});

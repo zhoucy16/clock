@@ -100,7 +100,7 @@ var exports = {
     },
 
     // 这个是按下创建按钮时；现在正计时可能没有时间做了
-    createTodoNow: function (e) {
+    createTodoNow: function (e, callback) {
         var that = this;
         e['session'] = wx.getStorageSync('session');
         e['invite'] = wx.getStorageSync('invite');
@@ -116,6 +116,9 @@ var exports = {
                 console.log("已创建！返回信息：", res.data);
                 if (res.data.info === 'errorInfoOrTimeout') {
                     that.login4App(getApp());
+                }
+                if (callback) {
+                    callback(res.data);
                 }
             }
         })
@@ -249,7 +252,7 @@ var exports = {
     },
 
     // 执行todo的按钮
-    startTodoSubmit: function (e) {
+    startTodoSubmit: function (e, callback) {
         var that = this;
         e['session'] = wx.getStorageSync('session');
         e['invite'] = wx.getStorageSync('invite');
@@ -265,6 +268,9 @@ var exports = {
                 console.log("已执行！返回信息：", res.data);
                 if (res.data.info === 'errorInfoOrTimeout') {
                     that.login4App(getApp());
+                }
+                if (callback) {
+                    callback(res.data);
                 }
             }
         })
