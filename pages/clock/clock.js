@@ -36,6 +36,7 @@ Page({
             backend.connectSubmit({
                 invitePart: options.invitePart
             }, function (res) {
+                console.log(res);
                 if (res.state === 'error') {
                     wx.showToast(wx.showToast({
                         title: '连接失败，错误信息：' + res.info,
@@ -78,6 +79,8 @@ Page({
         backend.updateOperation(function (res) {
             getApp().globalData.tomatoInfo = res.tomatoInfo;
             getApp().globalData.havePart = res.havePart;
+            getApp().globalData.nowInTomato = res.nowInTomato;
+
 
             var dataObj = {}, restInfo = null;
 
@@ -106,7 +109,7 @@ Page({
                     dataObj.pauseEnable = true;
                 }
 
-                dataObj.information = page.convertTime2Str(res.tomatoInfo.leftTime);
+                dataObj.information = res.tomatoInfo.todoInfo.todo_shown_name + " " + page.convertTime2Str(res.tomatoInfo.leftTime);
             } else {
                 if (page.userstatus === 'wait') {
 

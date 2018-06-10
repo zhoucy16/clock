@@ -224,12 +224,12 @@ var exports = {
     // 查找todo的按钮
     // 注意：在之前的开始、更新、暂停、停止操作中，都已经返回了todoInfo，在这时应该保存（如果不想保存的话就在后端别返回这些了）
     // 所以应该是基于这些来进行的
-    getTodoSubmit: function (e) {
+    getTodoSubmit: function (e, callback) {
         var that = this;
         e['session'] = wx.getStorageSync('session');
         e['invite'] = wx.getStorageSync('invite');
 
-        console.log("查找todo：", e)
+        console.log("查找todo：", e);
         wx.request({
             url: config.service.getTodoUrl,
             data: e,
@@ -240,6 +240,9 @@ var exports = {
                 console.log("已查询！返回信息：", res.data);
                 if (res.data.info === 'errorInfoOrTimeout') {
                     that.login4App(getApp());
+                }
+                if (callback) {
+                    callback(res.data);
                 }
             }
         })

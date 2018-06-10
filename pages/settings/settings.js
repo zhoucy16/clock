@@ -66,9 +66,20 @@ Page({
     },
 
     deletemylove: function () {
-        backend.disconnectSubmit();
-        this.setData({
-            paired: false
+        wx.showModal({
+            title: '删除配对',
+            content: '您真的要删除配对吗',
+            success: function (res) {
+                if (res.confirm) {
+                    console.log('用户点击确定');
+                    backend.disconnectSubmit();
+                    this.setData({
+                        paired: false
+                    });
+                } else if (res.cancel) {
+                    console.log('用户点击取消');
+                }
+            }
         });
     }
 });

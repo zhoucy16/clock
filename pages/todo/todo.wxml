@@ -7,7 +7,9 @@
   <block wx:if="{{ currentTab==0 }}">
     <block wx:if="{{ todos.length }}">
       <view>
-        <item wx:for="{{ todos }}" wx:key="id" binditemremove="onItemRemove" content="{{ item.content }}" tags="{{ item.tags }}" extra="{{ item.extra }}" finished="{{ item.finished }}" worktime="1000" resttime="500" totalTimes="3" finishedTimes="2" bindtap="toggleTodo" data-index="{{ index }}"></item>
+        <item id="{{ item.todo_id }}" wx:for="{{ todos }}" wx:key="id" content="{{ item.todo_shown_name }}" tags="{{ 'tags' }}"
+        extra="{{ 'extra' }}" finished="{{ item.state===2 }}" worktime="{{item.todo_run_time}}" resttime="{{item.todo_rest_time}}"
+        totalTimes="{{item.todo_tar_num}}" finishedTimes="{{item.todo_complete_num}}" bindtap="startTodo" data-index="{{ item.todo_id }}"></item>
       </view>
       <button class="button" catchtap='createnewtodo'>+</button>
     </block> 
@@ -22,7 +24,8 @@
   <block wx:else>
     <block wx:if="{{ done.length }}">
       <view>
-        <item wx:for="{{ done }}" wx:key="id" binditemremove="onItemRemove" content="{{ item.content }}" tags="{{ item.tags }}" extra="{{ item.extra }}" finished="{{ item.finished }}" worktime="1000" resttime="500" totalTimes="3" finishedTimes="2" bindtap="toggleTodo" data-index="{{ index }}"></item>
+        <item wx:for="{{ done }}" wx:key="id" content="{{ item.todo_shown_name }}" tags="{{ 'tags' }}"
+        extra="{{ 'extra' }}" finished="{{ item.state===2 }}" worktime="{{item.todo_run_time}}" resttime="{{item.todo_rest_time}}"></item>
       </view>
     </block>
     <block wx:else>

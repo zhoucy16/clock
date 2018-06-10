@@ -1,117 +1,70 @@
+var backend = require('../../backend');
+
 Page({
-  data: {
-    todo: '',
-    todos: [],
-    leftCount: 1,
-    allFinished: false,
-    allSetting: true,
-    clearSetting: true,
-    navbar: ['todo', 'done'],
-    currentTab: 0,
-  },
+    data: {
+        todo: '',
+        todos: [],
+        done: [],
+        leftCount: 1,
+        allFinished: false,
+        allSetting: true,
+        clearSetting: true,
+        navbar: ['todo', 'done'],
+        currentTab: 0,
+    },
 
-  navbarTap: function (e) {
-    var that = this;
-    that.setData({
-      currentTab: e.currentTarget.dataset.idx,
-    })
-},
+    refresh: function () {
+        var page = this;
+        backend.getTodoSubmit({
+            start: 0,
+            num: 100
+        }, function (res) {
+            page.setData({
+                todos: res.todoInfo.notFinished,
+                done: res.todoInfo.finished
+            });
+        });
+    },
 
-  save: function () {
-    wx.setStorageSync('todos', this.data.todos);
-  },
+    navbarTap: function (e) {
+        var that = this;
+        that.setData({
+            currentTab: e.currentTarget.dataset.idx
+        })
+    },
 
-  onShow: function () {
-    var todos = wx.getStorageSync('todos');
-    if (todos) {
-      var leftCount = todos.filter(function (item) {
-        return !item.finished;
-      }).length;
-      this.setData({ todos: todos, leftCount: leftCount, allFinished: !leftCount });
+    onShow: function () {
+        this.refresh();
+    },
+
+    createnewtodo: function (e) {
+        wx.navigateTo({url: '/pages/newTodo/newTodo'})
+    },
+
+    startTodo: function (e) {
+        var flag = getApp().globalData.nowInTomato;
+        console.log('flag: ' + flag);
+        if (flag !== 0) {
+            console.log('please finish the current one first!');
+            wx.showModal({
+                title: '提示',
+                content: '你还有未完成的番茄',
+                success: function (res) {
+                    if (res.confirm) {
+                        console.log('用户点击确定')
+                    } else if (res.cancel) {
+                        console.log('用户点击取消')
+                    }
+                }
+            });
+            return;
+        }
+        var todo_id = parseInt(e.target.id);
+        backend.startTodoSubmit({
+            todoNum: todo_id
+        });
+        wx.navigateTo({
+            url: '/pages/clock/clock'
+        });
     }
-
-    var allSetting = wx.getStorageSync('allSetting');
-    if (typeof allSetting == 'boolean') {
-      this.setData({ allSetting: allSetting });
-    }
-
-    var clearSetting = wx.getStorageSync('clearSetting');
-    if (typeof clearSetting == 'boolean') {
-      this.setData({ clearSetting: clearSetting });
-    }
-  },
-
-  onItemRemove: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var todos = this.data.todos;
-    var remove = todos.splice(index, 1)[0];
-    this.setData({
-      todos: todos,
-      leftCount: this.data.leftCount - (remove.finished ? 0 : 1)
-    });
-    this.save();
-    getApp().writeHistory(remove, 'delete', +new Date());
-  },
-
-  inputTodo: function (e) {
-    this.setData({ todo: e.detail.value });
-  },
-
-  addTodo: function (e) {
-    if (!this.data.todo || !this.data.todo.trim()) return;
-    var todos = this.data.todos;
-    var todo = { content: this.data.todo, finished: false, id: +new Date() };
-    todos.push(todo);
-    this.setData({
-      todo: '',
-      todos: todos,
-      leftCount: this.data.leftCount + 1
-    });
-    this.save();
-    getApp().writeHistory(todo, 'create', +new Date());
-  },
-
-  toggleTodo: function (e) {
-    var index = e.currentTarget.dataset.index;
-    var todos = this.data.todos;
-    var todo = todos[index];
-    todo.finished = !todo.finished;
-    var leftCount = this.data.leftCount + (todo.finished ? -1 : 1);
-    this.setData({
-      todos: todos,
-      leftCount: leftCount,
-      allFinished: !leftCount
-    });
-    this.save();
-    getApp().writeHistory(todo, todo.finished ? 'finish' : 'restart', +new Date());
-  },
-
-  toggleAll: function (e) {
-    var allFinished = !this.data.allFinished;
-    var todos = this.data.todos.map(function (todo) {
-      todo.finished = allFinished;
-      return todo;
-    });
-    this.setData({
-      todos: todos,
-      leftCount: allFinished ? 0 : todos.length,
-      allFinished: allFinished
-    })
-    this.save();
-    getApp().writeHistory(null, allFinished ? 'finishAll' : 'restartAll', +new Date());
-  },
-
-  clearFinished: function (e) {
-    var todos = this.data.todos;
-    var remains = todos.filter(function (todo) {
-      return !todo.finished;
-    });
-    this.setData({ todos: remains });
-    this.save();
-    getApp().writeHistory(null, 'clear', +new Date());
-  },
-
-  createItem: function (e) {
-    wx.navigateTo({ url: '/pages/detail/detail' })
-  }
-})
+});

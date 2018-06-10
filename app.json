@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/clock/clock",
-    "pages/newTodo/newTodo",
     "pages/todo/todo",
+    "pages/newTodo/newTodo",
     "pages/settings/settings",
     "pages/index/index"
   ],
