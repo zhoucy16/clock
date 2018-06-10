@@ -15,5 +15,7 @@
     <text class="font">屏幕常亮</text>
     <switch class="switch" bindchange="alwaysLightingswitchchange" checked="{{alwaysLighting}}"></switch>
   </view>
-  <button catchtap='sharetomylove' plain='true'>配对</button>
+  <button wx:if="{{!paired}}" class="button" open-type="share">配对</button>
+  <button wx:if="{{paired}}" class="buttonpaired">已配对</button>
+  <button wx:if="{{paired}}" class="buttondeletepaired" catchtap='deletemylove'>解除配对</button>
 </view>

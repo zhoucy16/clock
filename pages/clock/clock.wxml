@@ -1,8 +1,10 @@
 <view>
-  <view class="pair">
+  <view wx:if="{{havePart}}" class="leftright">
     <canvas canvas-id="herCanvas" class="little-canvas"></canvas>
-    <text class="pairInformation">{{pairInformation}}</text>
-    <image class="pairUserInfo-avatar" src="/images/true2.png"></image>
+    <view class="pair">
+      <image class="pairUserInfo-avatar" src="/images/true2.png"></image>
+      <text class="pairInformation">{{pairInformation}}</text>
+    </view>
   </view>
   <canvas catchtap='onetap' canvas-id="myCanvas" class="canvas"></canvas>
   <view class="information">

@@ -8,11 +8,18 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 100rpx;
+  border-style: solid;
+  border-width: 2rpx;
+  border-radius: 50rpx;
+  border-color: #000000;
+  background-color: #ffffff;
+  margin: 20rpx;
 }
 
 .font{
   width: 150rpx;
-  color: #B9B9B9;
+  color: #000000;
   font-size: 30rpx;
   align-items: center;
   padding: 20rpx;
@@ -22,19 +29,27 @@
   width: 500rpx;
   position: relative;
   right: 20rpx;
+  color: #000000;
 }
 
 .switch{
   position: fixed;
   right: 30rpx;
+  color: #000000;
 }
 
 .input{
   width: 500rpx;
   margin-left: 20rpx;
+  color: #000000;
 }
 
 .button{
-  width: 200rpx;
-  height: 90rpx;
+  height: 100rpx;
+  border-style: solid;
+  border-width: 2rpx;
+  border-radius: 50rpx;
+  border-color: #000000;
+  background-color: #ffffff;
+  margin: 20rpx;
 }

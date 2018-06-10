@@ -30,7 +30,21 @@ Page({
     restPausing: false,
 
     //onLoad生命周期函数，监听页面加载
-    onLoad: function () {
+    onLoad: function (options) {
+        if (options.invitePart) {
+            console.log("邀请人：" + options.invitePart);
+            backend.connectSubmit({
+                invitePart: options.invitePart
+            }, function (res) {
+                if (res.state === 'error') {
+                    wx.showToast(wx.showToast({
+                        title: '连接失败，错误信息：' + res.info,
+                        icon: 'loading',
+                        duration: 3000
+                    }));
+                }
+            });
+        }
         //将全局变量Index保存在that中，里面函数调用
         var that = this;
         //获取系统信息
@@ -63,6 +77,7 @@ Page({
     updateClocks: function (page) {
         backend.updateOperation(function (res) {
             getApp().globalData.tomatoInfo = res.tomatoInfo;
+            getApp().globalData.havePart = res.havePart;
 
             var dataObj = {}, restInfo = null;
 

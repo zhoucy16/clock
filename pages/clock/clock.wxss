@@ -9,14 +9,15 @@
   width: 100%;  
   height: 100%;  
   position: fixed;
-  top: -300rpx
+  top: -300rpx;
+  left: -150rpx;
 }
 
 .information{
   display: flex;
   justify-content: center;
   position: fixed;
-  top: 270rpx;
+  bottom: 320rpx;
   margin:0 auto; 
   left:0; 
   right:0; 
@@ -74,7 +75,6 @@
 .pair{
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 300rpx;
   height: 555rpx;
@@ -85,9 +85,15 @@
   height: 128rpx;  
   margin: 20rpx;  
   border-radius: 50%;
-  bottom: 20rpx;
 }  
 
 .pairInformation{
   font-size: 30rpx;
+  position: relative;
+  top: -20rpx;
+}
+
+.leftright{
+  display: flex;
+  flex-direction: row;
 }

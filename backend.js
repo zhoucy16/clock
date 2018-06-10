@@ -63,7 +63,7 @@ var exports = {
                                 wx.setStorageSync('invite', res.data.invite);
 
                                 app.globalData.logged = true;
-                                // app.globalData.havePart = res.data.havePart;
+                                app.globalData.havePart = res.data.havePart;
                                 // if (app.globalData.havePart) {
                                 //     app.globalData.partTomatoInfo = res.data.partTomatoInfo;
                                 // }
@@ -287,6 +287,42 @@ var exports = {
                 if (res.data.info === 'errorInfoOrTimeout') {
                     that.login4App(getApp());
                 }
+            }
+        })
+    },
+    connectSubmit: function (e, callback) {
+        e['session'] = wx.getStorageSync('session');
+        e['invite'] = wx.getStorageSync('invite');
+
+        console.log("连接：", e);
+        console.log(config.service.connectUrl);
+        wx.request({
+            url: config.service.connectUrl,
+            data: e,
+            header: {
+                'content-type': 'application/json'
+            },
+            success: function (res) {
+                console.log("已连接！返回信息：", res.data);
+                if (callback) {
+                    callback(res.data);
+                }
+            }
+        })
+    },
+
+    disconnectSubmit: function () {
+        wx.request({
+            url: config.service.disconnectUrl,
+            data: {
+                session: wx.getStorageSync('session'),
+                invite: wx.getStorageSync('invite')
+            },
+            header: {
+                'content-type': 'application/json'
+            },
+            success: function (res) {
+                console.log("已解除连接！返回信息：", res.data);
             }
         })
     }

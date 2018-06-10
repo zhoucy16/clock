@@ -33,10 +33,6 @@
   color: #7ED321;
 }
 
-.todos {
-  border: 1rpx solid #DDD;
-}
-
 .footer {
   display: flex;
   justify-content: space-between;
@@ -97,4 +93,14 @@
  font-size: 30rpx;
  color: #666666;
  font-family: Microsoft YaHei;
+}
+
+.button{
+  height: 100rpx;
+  border-style: solid;
+  border-width: 2rpx;
+  border-radius: 50rpx;
+  border-color: #000000;
+  background-color: #ffffff;
+  margin: 20rpx;
 }

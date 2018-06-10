@@ -6,20 +6,31 @@
   </view>
   <block wx:if="{{ currentTab==0 }}">
     <block wx:if="{{ todos.length }}">
-      <view class="todos">
+      <view>
         <item wx:for="{{ todos }}" wx:key="id" binditemremove="onItemRemove" content="{{ item.content }}" tags="{{ item.tags }}" extra="{{ item.extra }}" finished="{{ item.finished }}" worktime="1000" resttime="500" totalTimes="3" finishedTimes="2" bindtap="toggleTodo" data-index="{{ index }}"></item>
       </view>
-    </block>
+      <button class="button" catchtap='createnewtodo'>+</button>
+    </block> 
     <block wx:else>
+      <button class="button" catchtap='createnewtodo'>+</button>
       <view class="empty">
         <text class="title">恭喜</text>
         <text class="content">已处理完所有待办事项</text>
       </view>
     </block>
-    <button plain='true' type="primary">+</button>
   </block>
   <block wx:else>
-
+    <block wx:if="{{ done.length }}">
+      <view>
+        <item wx:for="{{ done }}" wx:key="id" binditemremove="onItemRemove" content="{{ item.content }}" tags="{{ item.tags }}" extra="{{ item.extra }}" finished="{{ item.finished }}" worktime="1000" resttime="500" totalTimes="3" finishedTimes="2" bindtap="toggleTodo" data-index="{{ index }}"></item>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="empty">
+        <text class="title">下拉</text>
+        <text class="content">刷新历史记录</text>
+      </view>
+    </block>
   </block>
   
 </view>
