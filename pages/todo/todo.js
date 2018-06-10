@@ -5,8 +5,17 @@ Page({
     leftCount: 1,
     allFinished: false,
     allSetting: true,
-    clearSetting: true
+    clearSetting: true,
+    navbar: ['todo', 'done'],
+    currentTab: 0,
   },
+
+  navbarTap: function (e) {
+    var that = this;
+    that.setData({
+      currentTab: e.currentTarget.dataset.idx,
+    })
+},
 
   save: function () {
     wx.setStorageSync('todos', this.data.todos);
