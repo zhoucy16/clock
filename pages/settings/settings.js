@@ -20,17 +20,17 @@ Page({
 
   worksliderchange: function (e) {
     this.setData({
-      totalTime: e.detail.value * 60,
+      totalTime: e.detail.value,
     });
-    getApp().globalData.totalTime = e.detail.value * 60;
+    getApp().globalData.totalTime = e.detail.value;
     wx.setStorageSync('totalTime', getApp().globalData.totalTime);
   },
 
   restsliderchange: function (e) {
     this.setData({
-      testTime: e.detail.value * 60,
+      testTime: e.detail.value,
     });
-    getApp().globalData.restTime = e.detail.value * 60;
+    getApp().globalData.restTime = e.detail.value;
     wx.setStorageSync('restTime', getApp().globalData.restTime);
   },
 

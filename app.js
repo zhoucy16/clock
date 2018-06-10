@@ -1,11 +1,11 @@
 var backend = require('./backend');
 App({
     globalData: {
-        totalTime: wx.getStorageSync('totalTime') || 1500,
-        restTime: wx.getStorageSync('restTime') || 300,
-        vibrate: wx.getStorageSync('vibrate'),
+        totalTime: wx.getStorageSync('totalTime') || 25,
+        restTime: wx.getStorageSync('restTime') || 5,
+        vibrate: wx.getStorageSync('vibrate') || true,
         muse: wx.getStorageSync('muse'),
-        alwaysLighting: wx.getStorageSync('alwaysLighting'),
+        alwaysLighting: wx.getStorageSync('alwaysLighting') || true,
         logged: false,
 
         havePart: false,
@@ -13,9 +13,10 @@ App({
         todoInfo: null,
         userInfo: null,
         tomatoInfo: 0,
-        partTomatoInfo: null
+        partTomatoInfo: null,
+        todoForm: 2
     },
     onLaunch: function () {
-        backend.login4App()
+        backend.login4App(this);
     }
 });

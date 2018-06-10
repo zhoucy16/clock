@@ -9,9 +9,9 @@
     <text>{{information}}</text>
   </view>
   <view class="downcenter">
-    <image catchtap='pushstartbutton' hidden='{{working && opening}}' class="button" src="/images/start.png"></image>
-    <image catchtap='pushpausebutton' hidden='{{pausing || !opening}}' class="button" src="/images/pause.png"></image>
-    <image catchtap='pushstopbutton' hidden='{{!opening}}' class="button" src="/images/stop.png"></image>
+    <image catchtap='pushstartbutton' hidden='{{!startEnable}}' class="button" src="/images/start.png"></image>
+    <image catchtap='pushpausebutton' hidden='{{!pauseEnable}}' class="button" src="/images/pause.png"></image>
+    <image catchtap='pushstopbutton' hidden='{{!stopEnable}}' class="button" src="/images/stop.png"></image>
   </view>
   <image catchtap='gotosettings' class="iconleftbottom" src="/images/settings.png"></image>
   <image catchtap='gototodolist' class="iconrightbottom" src="/images/todolist.png"></image>
