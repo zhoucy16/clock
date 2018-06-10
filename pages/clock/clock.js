@@ -11,7 +11,7 @@ Page({
         pairInformation: ""
     },
     mainClock: null,
-    loverClock: null,
+    pairClock: null,
 
     //onLoad生命周期函数，监听页面加载
     onLoad: function () {
@@ -40,9 +40,9 @@ Page({
                 information: info
             });
         };
-        if (this.loverClock) {
-            this.loverClock.init();
-            this.loverClock.callback = function (info) {
+        if (this.pairClock) {
+            this.pairClock.init();
+            this.pairClock.callback = function (info) {
                 that.setData({
                     pairInformation: info
                 });
@@ -53,8 +53,8 @@ Page({
     //页面卸载，清除画布绘制计时器
     onUnload: function () {
         this.mainClock.destroy();
-        if (this.loverClock) {
-            this.loverClock.destroy();
+        if (this.pairClock) {
+            this.pairClock.destroy();
         }
     },
 

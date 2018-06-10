@@ -52,14 +52,27 @@ var exports = {
                         success: function (res) {
                             res.data = JSON.parse(res.data.split("<script")[0]);
                             console.log("已登陆！返回信息：", res.data);
-                            wx.setStorageSync('session', res.data.session);
-                            wx.setStorageSync('invite', res.data.invite);
                             // that.setData({
                             // returnedData: res.data,
                             // logged: true
                             // })
-                            getApp().globalData.returnedData = res.data;
-                            getApp().globalData.logged = true;
+                            if (res.data.status === 'ok') {
+                                wx.setStorageSync('session', res.data.session);
+                                wx.setStorageSync('invite', res.data.invite);
+
+                                var app = getApp();
+                                app.globalData.logged = true;
+                                app.globalData.havePart = res.data.havePart;
+                                if (app.globalData.havePart) {
+                                    app.globalData.partTomatoInfo = res.data.partTomatoInfo;
+                                }
+                                app.globalData.nowInTomato = res.data.nowInTomato;
+                                if (app.globalData.nowInTomato) {
+                                    app.globalData.tomatoInfo = res.data.tomatoInfo;
+                                }
+                            }
+
+                            // app.globalData.havePart=
                         }
                     })
                 }
